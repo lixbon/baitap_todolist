@@ -3,7 +3,6 @@ import { nanoid } from "nanoid";
 
 const initialState = {
   todoList: [],
-  doneList: [],
 };
 
 export let todoListReducer = (state = initialState, action) => {
@@ -25,35 +24,25 @@ export let todoListReducer = (state = initialState, action) => {
     }
     case REMOVE_TODO: {
       let cloneToDoList = [...state.todoList];
-      let clonedoneList = [...state.doneList];
       let index = state.todoList.findIndex((item) => {
         return item.id == action.payload;
       });
-      let indexdone = state.doneList.findIndex((item) => {
-        return item.id == action.payload;
-      });
+
       if (index !== -1) {
         cloneToDoList.splice(index, 1);
       }
-      if (indexdone !== -1) {
-        clonedoneList.splice(indexdone, 1);
-      }
+
       state.todoList = cloneToDoList;
-      state.doneList = clonedoneList;
       return { ...state };
     }
     case DONE_TODO: {
       let index = state.todoList.findIndex((item) => {
         return item.id == action.payload;
       });
-      let clonedoneList = [...state.doneList];
       let cloneToDoList = [...state.todoList];
       if (index !== -1) {
-        state.todoList[index].isDone = true;
-        clonedoneList.push(state.todoList[index]);
-        cloneToDoList.splice(index, 1);
+        cloneToDoList[index].isDone = true;
       }
-      state.doneList = clonedoneList;
       state.todoList = cloneToDoList;
       return { ...state };
     }
